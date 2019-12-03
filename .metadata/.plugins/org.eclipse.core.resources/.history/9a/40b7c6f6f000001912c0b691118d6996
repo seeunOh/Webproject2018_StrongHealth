@@ -1,0 +1,101 @@
+<%@ page language="java" contentType="text/html; charset=EUC-KR"
+    pageEncoding="EUC-KR"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="EUC-KR">
+<title>Insert title here</title>
+</head>
+<body>
+<jsp:include page="Header.jsp"/>
+<%
+	String selected_page = request.getParameter("selected_page");
+	
+	if(selected_page == null){
+		pageContext.include("test.jsp");
+	}
+	else if(selected_page.equals("today")){
+		pageContext.include("Map.jsp");
+	}
+	else if(selected_page.equals("login")){
+		pageContext.include("Login.jsp");
+	}
+	else if(selected_page.equals("join")){
+		pageContext.include("Join.jsp");
+	}
+	else if(selected_page.equals("notice")){
+		if(request.getParameter("page_number") == null )
+			pageContext.include("Board.jsp?category=notice");
+		else
+			pageContext.include("Board.jsp?category=notice&page_number="+request.getParameter("page_number"));
+	}
+	else if(selected_page.equals("qna")){
+		if(request.getParameter("page_number") == null )
+			pageContext.include("Board.jsp?category=qna");
+		else
+			pageContext.include("Board.jsp?category=qna&page_number="+request.getParameter("page_number"));
+	}
+	else if(selected_page.equals("music")){
+		if(request.getParameter("page_number") == null )
+			pageContext.include("Music.jsp");
+		else
+			pageContext.include("Music.jsp?page_number="+request.getParameter("page_number"));
+	}
+	else if(selected_page.equals("notice_write")){
+		pageContext.include("Notice_write.jsp");
+	}
+	else if(selected_page.equals("notice_read")){
+		pageContext.include("Notice_read.jsp?article_number=" + request.getParameter("article_number"));
+	}
+	else if(selected_page.equals("notice_update")){
+		pageContext.include("Notice_update.jsp?article_number=" + request.getParameter("article_number"));
+	}
+	else if(selected_page.equals("qna_write")){
+		pageContext.include("Qna_wirte.jsp");
+	}
+	else if(selected_page.equals("qna_read")){
+		pageContext.include("Qna_read.jsp?article_number=" + request.getParameter("article_number"));
+	}
+	else if(selected_page.equals("qna_update")){
+		pageContext.include("Qna_update.jsp?article_number=" + request.getParameter("article_number"));
+	}
+	else if(selected_page.equals("music_manager")){
+		if(request.getParameter("page_number") == null)
+			pageContext.include("Board.jsp?category=music_manager");
+		else 
+			pageContext.include("Board.jsp?category=music_manager&page_number=" + request.getParameter("page_number"));		
+	}	
+	else if(selected_page.equals("music_read")){
+		pageContext.include("Music_read.jsp?article_number=" + request.getParameter("article_number"));
+	}
+	else if(selected_page.equals("music_write")){
+		pageContext.include("Music_write.jsp");
+	}
+	else if(selected_page.equals("music_update")){
+		pageContext.include("Music_update.jsp?article_number=" + request.getParameter("article_number"));
+	}
+	else if(selected_page.equals("survey")){
+		pageContext.include("Survey.jsp");
+	}
+	else if(selected_page.equals("mypage")){
+		pageContext.include("Mypage.jsp");
+	}
+	else if(selected_page.equals("management")){
+		if(request.getParameter("page_number") == null)
+			pageContext.include("Management.jsp");
+		else if(request.getParameter("id") != null)
+			pageContext.include("Management.jsp?id=" + request.getParameter("id"));
+		
+		else 
+			pageContext.include("Management.jsp?page_number=" + request.getParameter("page_number"));		
+	}	
+	else if(selected_page.equals("management_update")){
+		pageContext.include("Management_update.jsp?id=" + request.getParameter("id"));
+	}
+	else if(selected_page.equals("healthcare_food")){
+		pageContext.include("Healthcate_Food.jsp");
+	}
+%>
+<jsp:include page="Footer.html"/>
+</body>
+</html>

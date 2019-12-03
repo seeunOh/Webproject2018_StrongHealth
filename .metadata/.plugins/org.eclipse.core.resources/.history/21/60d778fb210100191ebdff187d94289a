@@ -1,0 +1,16 @@
+--<ScriptOptions statementTerminator=";"/>
+
+insert into weather(cityName) values ('부산');
+insert into weather(cityName) values ('대구');
+insert into weather(cityName) values ('인천');
+insert into weather(cityName) values ('광주');
+insert into weather(cityName) values ('대전');
+insert into weather(cityName) values ('울산');
+insert into weather(cityName) values ('충북');
+insert into weather(cityName) values ('충남');
+insert into weather(cityName) values ('전북');
+insert into weather(cityName) values ('전남');
+insert into weather(cityName) values ('경북');
+insert into weather(cityName) values ('경남');
+insert into weather(cityName) values ('제주');
+insert into weather(cityName) values ('세종');

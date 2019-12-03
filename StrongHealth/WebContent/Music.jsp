@@ -1,0 +1,113 @@
+<%@page import="javabean.Music"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="javabean.Access_DB"%>
+<%@ page language="java" contentType="text/html; charset=EUC-KR"
+    pageEncoding="EUC-KR"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="EUC-KR">
+<title>Insert title here</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+<!-- 부가적인 테마 -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+<!-- 합쳐지고 최소화된 최신 자바스크립트 -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+<script>
+	function move(url){
+		location.href=url;
+	}
+</script>
+
+<style>
+
+body{
+width:1080px;
+text-align:center;
+
+}
+
+
+#muaside{
+height:100px;
+width:160px;
+font-size:28px;
+background: #FF9595;
+float:left;
+color:white;
+}
+
+#butt a{
+font-size:20px;
+text-decoration:none;
+color:black;
+}
+
+#musicContent{
+width:920px;
+height:1200px;
+float:right;
+}
+</style>
+</head>
+<body>
+
+<div id=muaside>
+<p>추천음악<p>
+</div>
+
+<div id=musicContent>
+<table class="table table-striped">
+<h2>Music</h2>
+<%
+	request.setCharacterEncoding("EUC-KR");
+	String row = "";
+	Access_DB ac = new Access_DB();
+	ArrayList<Music> ml = ac.getMusics();
+
+	int tr = (int)Math.ceil(ml.size() / 2.0);
+	int page_number = 0;
+	int number_of_tr = 3;
+	int max_article = ml.size();
+	int max_page = (int)(Math.ceil(ml.size()/6.0)) -1;
+	int idx = 0;
+	
+	if(request.getParameter("page_number") != null){
+		page_number = Integer.parseInt(request.getParameter("page_number"));
+	}
+	idx += page_number*6;
+	for(int i=1; i<=number_of_tr; i++){
+		row += "<tr><td>"+ml.get(idx).getLink() +"<br>" +ml.get(idx++).getArticle_name() + "</td>";
+		if(idx==ml.size()){
+			row+="<td><br></td></tr>";
+			break;
+		}
+		row += "<td>"+ml.get(idx).getLink() +"<br>" +ml.get(idx++).getArticle_name() + "</td></tr>";
+		if(idx ==ml.size())
+			break;
+	}
+	out.println(row);
+
+%>
+</table>
+
+<div id=butt>
+<p></p>
+<input class="btn btn-danger" type="button" value="<<이전" onclick='move("Container.jsp?selected_page=music&page_number=<%=(page_number - 1 == -1 ? 0 : page_number-1) %>");'>
+<input class="btn btn-danger" type="button" value="다음>>" onclick='move("Container.jsp?selected_page=music&page_number=<%=(page_number == max_page ? max_page : page_number + 1) %>");'>
+
+<%
+	if(session.getAttribute("authority") != null){
+		if(session.getAttribute("authority").toString().equals("admin")){
+			out.println("<input class='btn btn-primary' type='button' value='글관리' onclick='move(\"Container.jsp?selected_page=music_manager\")'/>");
+			}
+	}
+%>
+
+
+</div>
+
+</div>
+
+</body>
+</html>

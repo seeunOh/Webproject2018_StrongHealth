@@ -1,0 +1,27 @@
+/*À½¾Ç*/
+
+body{
+text-align:center;
+width:1080px;
+}
+#muaside{
+height:100px;
+width:160px;
+font-size:28px;
+background: #FF9595;
+float:left;
+color:white;
+}
+
+#but a{
+font-size:20px;
+text-decoration:none;
+color:black;
+}
+
+#musicContent{
+width:920px;
+height:750px;
+background: #FFEAEA;
+float:right;
+}

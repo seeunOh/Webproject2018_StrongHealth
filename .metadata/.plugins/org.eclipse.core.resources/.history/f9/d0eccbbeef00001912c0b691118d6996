@@ -1,0 +1,55 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="EUC-KR">
+<title>Insert title here</title>
+<style>
+
+
+/*
+#footer {
+    background-color: white;
+    width: 1080px;
+    height: 100px;
+    float:left;
+    text-align:center;
+
+}
+#bottom {
+    background-color: #FFEAEA;
+    width: 1080px;
+    height: 20px;
+    clear: both;
+    text-align:center;
+
+}*/
+</style>
+
+
+</head>
+
+
+
+<body>
+
+
+<div id=footer>
+
+<h7>강원도 춘천시 한림대학길1 (지번)강원도 춘천시 옥천동 1-1
+<br>(사)한림대학교 Tel +82-33-248-1000,
+<br>www.hallym.ac.kr/
+<br>ose7531@naver.com</h7>
+
+</div>
+
+<div id="bottom">
+<h7>Copyrightⓒ All Rights Reserved · Chuncheon International Mime festival.</h7>
+</div>
+
+
+</div>
+
+
+</body>
+</html>

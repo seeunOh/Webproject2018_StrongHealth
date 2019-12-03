@@ -1,0 +1,153 @@
+/*음악 Music.jsp*/
+
+body{
+width:1080px;
+text-align:center;
+}
+
+
+
+#muaside{
+height:100px;
+width:160px;
+font-size:28px;
+background: #FF9595;
+float:left;
+color:white;
+}
+
+#butt a{
+font-size:20px;
+text-decoration:none;
+color:black;
+}
+
+#musicContent{
+width:920px;
+height:750px;
+background: #FFEAEA;
+float:right;
+}
+
+
+
+
+/*음악 글쓰기*/
+
+#musicWriteTB{
+/*border: 1px solid black;*/
+width:810px;
+margin: 0px 0px 0px 190px;
+background: #FFEAEA;
+}
+
+
+/*음악읽기*/
+#musicTB{
+height:400px;
+width:750px;
+background: #FFEAEA;
+margin: 0px 0px 0px 150px;
+font-size:18px;
+}
+
+/*음악수정*/
+#musicUpdateTB{
+/*border: 1px solid black;*/
+width:850px;
+margin: 0px 0px 0px 190px;
+background: #FFEAEA;
+}
+
+button{
+background:white;
+}
+
+
+/*공지사항읽기*/
+
+
+#noticelistTB{
+height:600px;
+width:950px;
+background: #FFEAEA;
+margin: 0px 0px 0px 150px;
+font-size:18px;
+}
+
+#noiticelistTB th,td{
+border-bottom: 1px solid #A6A6A6;
+padding: 5px;
+border-collapse: collapse;
+}
+
+#noticecontent{
+ background:white;
+ width:950px; 
+ height:450px;
+ border:1px solid #BDBDBD;
+}
+
+/*공지사항 수정*/
+
+#noticeUpdateTB{
+width:850px;
+margin: 0px 0px 0px 190px;
+background: #FFEAEA;
+}
+
+/*공지사항 쓰기*/
+
+#noticeWriteTB{
+/*border: 1px solid black;*/
+width:810px;
+margin: 0px 0px 0px 190px;
+background: #FFEAEA;
+}
+
+/*큐앤에이 읽기*/
+
+#qnalistTB{
+height:600px;
+width:900px;
+background: #FFEAEA;
+margin: 0px 0px 0px 170px;
+font-size:20px;
+}
+
+#qnalistTB th,td{
+border-bottom: 1px solid #A6A6A6;
+padding: 5px;
+border-collapse: collapse;
+}
+
+#qnaComment{
+width:900px;
+margin: 0px 0px 0px 170px;
+text-align:left;
+font-size:20px;
+}
+
+#qnacontent{
+ background:white;
+ width:900px; 
+ height:450px;
+ border:1px solid #BDBDBD;
+}
+
+/*큐앤에이 수정*/
+
+#qnaUpdateTB{
+width:900px;
+margin: 0px 0px 0px 190px;
+background: #FFEAEA;
+}
+/*큐앤에이 쓰기*/
+#qnaWriteTB{
+width:900px;
+margin: 0px 0px 0px 190px;
+background: #FFEAEA;
+}
+
+
+

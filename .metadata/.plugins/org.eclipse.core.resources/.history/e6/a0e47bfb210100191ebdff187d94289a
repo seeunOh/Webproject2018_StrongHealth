@@ -1,0 +1,19 @@
+--<ScriptOptions statementTerminator=";"/>
+
+--
+--create table weather (
+--	cityName varchar(20) NOT NULL PRIMARY KEY,
+--	dWeather varchar(20) NULL,
+--	tWeather varchar(20) NULL,
+--	pop varchar(20) NULL,
+--	humidity varchar(20) NULL,
+--	dust varchar(20) NULL,
+--	sensory varchar(20) NULL,
+--	frozne varchar(20) NULL,
+--	flu varchar(20) NULL,
+--	eyeDisease varchar(20) NULL,
+--	esthma varchar(20) NULL,
+--	skinDisease varchar(20) NULL,
+--	foodPoison varchar (20) NULL
+--)
+

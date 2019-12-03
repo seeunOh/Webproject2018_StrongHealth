@@ -1,0 +1,7 @@
+INDEX VERSION 1.4+C:\Users\beef\Desktop\웹프로젝트\.metadata\.plugins\org.eclipse.wst.jsdt.core\indexes
+3899536981.index
+3646757114.index
+883400333.index
+552791197.index
+469253425.index
+1198391549.index

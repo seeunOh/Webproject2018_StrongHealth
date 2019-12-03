@@ -1,0 +1,193 @@
+<%@ page language="java" contentType="text/html; charset=EUC-KR"
+    pageEncoding="EUC-KR"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="EUC-KR">
+<title>Insert title here</title>
+<style>
+
+/*
+body{
+width:1080px;
+}
+
+#header{
+width:1080px;
+height:28px;
+background:#FFEAEA;
+}
+
+#Loheader{
+width:230px;
+float:right;
+heigth:28px;
+background: #FFEAEA;
+margin:80px 0px 0px 0px;
+}
+
+#log{
+float:right;
+width:230px;
+line-height: 1.7em;
+}
+
+#log a {
+font-size:16px;
+color: black;
+text-decoration:none; 
+}
+
+#log a:hover {
+text-decoration:underline;
+}
+
+
+#mainlogo{
+width:1080px;
+background:;
+}
+#mainlogo img{
+margin:0px 0px 0px 200px;
+}
+#nav{
+width:1080px;
+height:180px;
+}
+#logo{
+float:left;
+width:1080px;
+background:#FFEAEA;
+
+}
+#search{
+width:750px;
+height:100px;
+float:right;
+background:red;	
+}
+#TM{
+width:1080px;
+height:60px;
+border-top:1px solid red; border-bottom:1px solid red; 
+font-size:25px;
+text-align:center;
+margin:10px 0px 10px 0px;
+line-height: 1.6em;
+}
+
+#TM ul {
+   list-style: none;
+   padding:0px 0;
+   margin: 0px;
+   
+}
+#TM ul li {
+   float : left;
+   line-height : 2.5em;
+   position : relative;
+   width:150px;
+   padding: 0px 15px 0px 15px;
+}  
+
+.menuLink { 
+   text-decoration:none;
+   display: block;
+   width: 150px;
+   color:black;
+}
+.submenu {
+   position: absolute;
+   display:none;
+   overflow:hidden;
+   background-color:black;
+	opacity:0.7;
+	font-size:15px;
+}
+.topmenu:hover .submenu{
+   display:block;
+}
+
+.submenu a {
+   text-decoration : none;
+   color : white;
+}
+*/
+</style>
+
+
+</head>
+<body>
+
+
+
+
+<div id=mainlogo>
+<a href="Container.jsp"><img src="img/logoLast.PNG" width=450 height=100/></a>
+<div id=Loheader>
+<%
+	if(session.getAttribute("id") == null){
+		out.println("<div id=log><a href='Container.jsp?selected_page=login'>LOGIN</a><span> | </span><a href='Container.jsp?selected_page=join'>JOIN</a><span> | </span><a href='Container.jsp?selected_page=mypage'>MYPAGE</a></div>"); // MYPAGE는 삭제가 필요함.
+	}
+	else{
+		out.println("<div id=log><a href='Container.jsp?selected_page=management'>" + session.getAttribute("name") + " 님" + "</a><span> | </span><a href='Logout.jsp'>LOGOUT</a><span> | </span><a href='Container.jsp?selected_page=mypage'>MYPAGE</a></div>");
+	}	
+%>
+</div>
+</div>
+
+
+
+<div id = TM>
+<ul>
+<li>&nbsp</li>
+ <li class="topmenu"><a class="menuLink" href="Container.jsp?selected_page=today">오늘의 건강</a>
+ 	<!-- <ul class="submenu">
+     <li class="submenuLink"><a href="#">식습관 생활</a></li>
+     <li class="submenuLink"><a href="#">생활 습관</a></li>
+     <li class="submenuLink"><a href="#">추천 음악</a></li>
+   </ul> -->
+ </li>
+ <li class="topmenu"><a class="menuLink" href="Container.jsp?selected_page=survey">건강설문</a>
+   <!-- <ul class="submenu">
+     <li class="submenuLink"><a href="#">알코올 자가진단</a></li>
+     <li class="submenuLink"><a href="#">흡연 자가진단</a></li>
+     <li class="submenuLink"><a href="#">스마트폰 자가진단</a></li>
+   </ul> -->
+ </li>
+ <li class="topmenu"><a class="menuLink" href="#">헬스케어</a>
+   <ul class="submenu">
+     <li class="submenuLink"><a href="Healthcare_Food.jsp">추천 건강푸드</a></li>
+     <li class="submenuLink"><a href="Healthcare_Stretching.jsp">스트레칭</a></li>
+     <li class="submenuLink"><a href="Container.jsp?selected_page=music">추천음악</a></li>
+   </ul>
+</li>
+ <li class="topmenu"><a class="menuLink" href="#">자료실</a>
+ 	<ul class="submenu">
+     <li class="submenuLink"><a href="HealthNews.jsp">건강신문</a></li>
+   </ul>
+ </li>
+ <li class="topmenu"><a class="menuLink" href="Container.jsp?selected_page=notice">커뮤니티</a>
+  <ul class="submenu">
+   <li class="submenuLink"><a href="Container.jsp?selected_page=notice">공지사항</a></li>
+   <li class="submenuLink"><a href="Container.jsp?selected_page=qna">Q&A</a></li>
+  </ul>
+</li>
+</ul>
+</div>
+
+
+
+
+ <!-- 
+<div id=nav>
+<div id=logo><a href="Container.jsp"><img src="img/logo.PNG" width=250 height=170/></a>
+</div>-->
+<!-- <p style='line-height : 0.6em;'>&nbsp</p> -->
+<!-- <div id=search></div> -->
+<!-- <div id = search><p>연관검색어 | 하루식단   스트레칭   자료실   추천도서   알코올자가진단   맞춤영양식단</p>
+<input type="text" size=80> <input type="button" value="검색"></div> -->
+
+
+</body>
+</html>

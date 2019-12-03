@@ -1,0 +1,667 @@
+package javabean;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+
+import com.sun.corba.se.spi.orbutil.fsm.Guard.Result;
+
+public class Access_DB {	
+	private String driverName = "com.mysql.jdbc.Driver";
+	private String dbURL = "jdbc:mysql://localhost:3306/stronghealthdb";
+	private String userName = "root";
+	private String passWord = "0000";
+	private Connection con = null;
+	private Statement st = null;
+	
+
+	public static int NOTICE = 1;
+	public static int QNA = 2;
+	public static int MUSIC = 3;
+	public static int SURVEY = 6;
+	public static int HEALTHCARE = 8;
+	public static int TODAY = 1;
+	public static int LOGIN = 2;
+	public static int SIGN = 3;
+	
+	public Access_DB() {
+		try {
+			Class.forName(driverName);
+			con = DriverManager.getConnection(dbURL, userName, passWord);
+			st = con.createStatement();
+		} catch(Exception e) {
+			System.out.println(e);
+		}
+	}
+	
+	public Weather getWeather(String city_name) {
+		ResultSet rs = null;
+		Weather wt = new Weather();
+		// TODO Auto-generated constructor stub
+		try {
+			rs = st.executeQuery("select * from weather where cityName='" + city_name + "'");
+			while(rs.next()) {
+				wt.setCityName(rs.getString("cityName"));
+				wt.setdWeather(rs.getString("dWeather"));
+				wt.settWeahter(rs.getString("tWeather"));
+				wt.setPop(rs.getString("pop"));
+				wt.setHumidity(rs.getString("humidity"));
+				wt.setDust(rs.getString("dust"));
+				wt.setSensory(rs.getString("sensory"));
+				wt.setFlu(rs.getString("flu"));
+				wt.setEyeDisease(rs.getString("eyeDisease"));
+				wt.setAsthma(rs.getString("asthma"));
+				wt.setSkinDisease(rs.getString("skinDisease"));
+				wt.setFrozen(rs.getString("frozen"));
+				wt.setFoodPoison(rs.getString("foodPoison"));
+			}
+		} catch(Exception e) {
+			System.out.println(e);
+		}
+		return wt;
+	}
+	
+	
+	public void surveyWrite(Survey survey) {
+		ResultSet rs = null;
+		try {
+			rs = st.executeQuery("select * from survey where id='" + survey.getId()+"' order by date desc");;
+			if(rs.next()) {
+				System.out.println(1);
+				if(rs.getString("date").equals(Access_DB.getCurrentDate())) {
+					System.out.println(2);
+					st.execute("update survey set score0=" + survey.getScore0() + ", score1=" + survey.getScore1() + ", score2=" + survey.getScore2() + 
+								", score3="+ survey.getScore3()+", score4=" + survey.getScore4() + ", text='" + survey.getText() + "' where date='" + survey.getDate() + "'");
+					st.execute("update survey set score_sum=(score0 + score1 + score2 + score3 + score4)");
+				}
+				else {
+					st.execute("insert into survey values('" + survey.getId() + "', '" + survey.getDate() + "', '" + survey.getScore0() + "', '" + survey.getScore1() + 
+							"', '" + survey.getScore2() + "', '" + survey.getScore3() + "', '" + survey.getScore4() + "', '" + 0 + "', '" + survey.getText() + "')");
+					st.execute("update survey set score_sum=(score0 + score1 + score2 + score3 + score4) where id='" + survey.getId() + "'and date='" + survey.getDate() + "'");
+				}
+			}
+			else {
+				st.execute("insert into survey values('" + survey.getId() + "', '" + survey.getDate() + "', '" + survey.getScore0() + "', '" + survey.getScore1() + 
+						"', '" + survey.getScore2() + "', '" + survey.getScore3() + "', '" + survey.getScore4() + "', '" + 0 + "', '" + survey.getText() + "')");
+				st.execute("update survey set score_sum=(score0 + score1 + score2 + score3 + score4) where id='" + survey.getId() + "'and date='" + survey.getDate() + "'");
+			}
+		}
+		catch(Exception e) {
+			System.out.println(e);
+		}
+	}
+	
+	public ArrayList<Survey> getSurveys(String id, int day){
+		ArrayList<Survey> sl = new ArrayList<Survey>();
+		ResultSet rs = null;
+		try {
+			rs = st.executeQuery("select * from survey where id='" + id + "' and date>'" + getDaysAgoDate(day) +"' order by date desc");
+			while(rs.next()) {
+				Survey sr = new Survey();
+				sr.setId(rs.getString("id"));
+				sr.setDate(rs.getString("date"));
+				sr.setScore0(Integer.parseInt(rs.getString("score0")));
+				sr.setScore1(Integer.parseInt(rs.getString("score1")));
+				sr.setScore2(Integer.parseInt(rs.getString("score2")));
+				sr.setScore3(Integer.parseInt(rs.getString("score3")));
+				sr.setScore4(Integer.parseInt(rs.getString("score4")));
+				sr.setScore_sum(Integer.parseInt(rs.getString("score_sum")));
+				sr.setText(rs.getString("text"));
+				sl.add(sr);
+				if(sl.size() >= Math.abs(day)) {
+					return sl;
+				}
+			}
+		} catch(Exception e) {
+			System.out.println(e);
+		}
+		return sl;
+	}
+	
+	public ArrayList<Survey> getSurveysAll(int day){
+		ArrayList<Survey> sl = new ArrayList<Survey>();
+		ResultSet rs = null;
+		try {
+			rs = st.executeQuery("select * from survey where date>'" + getDaysAgoDate(day) + "' order by id, date desc");
+			while(rs.next()) {
+				Survey sr = new Survey();
+				sr.setId(rs.getString("id"));
+				sr.setDate(rs.getString("date"));
+				sr.setScore0(Integer.parseInt(rs.getString("score0")));
+				sr.setScore1(Integer.parseInt(rs.getString("score1")));
+				sr.setScore2(Integer.parseInt(rs.getString("score2")));
+				sr.setScore3(Integer.parseInt(rs.getString("score3")));
+				sr.setScore4(Integer.parseInt(rs.getString("score4")));
+				sr.setScore_sum(Integer.parseInt(rs.getString("score_sum")));
+				sr.setText(rs.getString("text"));
+				sl.add(sr);
+			}
+		} catch(Exception e) {
+			System.out.println(e);
+		}
+		if(sl.size() == 0)
+			sl = null;
+		return sl;
+	}
+	
+	public ArrayList<Survey> getSurveyMean(ArrayList<Survey> surveyAll){
+		ArrayList<Survey> result = new ArrayList<Survey>();
+		Survey temp = new Survey();
+		String previousID = "";
+		String currentID = "";
+		int cnt = 0;
+		for(int i=0; i < surveyAll.size(); i++) {
+			Survey sr = surveyAll.get(i);
+			currentID = sr.getId();
+			if(i == 0) 
+				previousID = currentID;
+			
+			if(!currentID.equals(previousID)) {
+				temp.setScore0(temp.getScore0()/cnt);
+				temp.setScore1(temp.getScore1()/cnt);
+				temp.setScore2(temp.getScore2()/cnt);
+				temp.setScore3(temp.getScore3()/cnt);
+				temp.setScore4(temp.getScore4()/cnt);
+				temp.setScore_sum(temp.getScore_sum()/cnt);
+				result.add(temp);
+				temp = new Survey();
+				cnt = 0;
+			}
+			temp.setId(sr.getId());
+			temp.setScore0(sr.getScore0() + temp.getScore0());
+			temp.setScore1(sr.getScore1() + temp.getScore1());
+			temp.setScore2(sr.getScore2() + temp.getScore2());
+			temp.setScore3(sr.getScore3() + temp.getScore3());
+			temp.setScore4(sr.getScore4() + temp.getScore4());
+			temp.setScore_sum(sr.getScore_sum() + temp.getScore_sum());
+			cnt++;
+			
+			if(i == surveyAll.size()-1) {
+				temp.setScore0(temp.getScore0()/cnt);
+				temp.setScore1(temp.getScore1()/cnt);
+				temp.setScore2(temp.getScore2()/cnt);
+				temp.setScore3(temp.getScore3()/cnt);
+				temp.setScore4(temp.getScore4()/cnt);
+				temp.setScore_sum(temp.getScore_sum()/cnt);
+				result.add(temp);
+			}
+			previousID = currentID;
+		}
+		if(result.size() == 0)
+			result = null;
+		return result;
+	}
+	
+	public ArrayList<Member> getMembersAll() {
+		ResultSet rs = null;
+		ArrayList<Member> ml = new ArrayList<Member>();
+		try {
+			rs = st.executeQuery("select * from member order by name");
+			while(rs.next()) {
+				Member mb = new  Member();
+				mb.setId(rs.getString("id"));
+				mb.setPassword(rs.getString("password"));
+				mb.setName(rs.getString("name"));
+				mb.setSex(rs.getString("sex"));
+				mb.setBirth(rs.getString("birth"));
+				mb.setAuthority(rs.getString("authority"));
+				mb.setAddress(rs.getString("address"));
+				mb.setPhone(rs.getString("phone"));
+				mb.setEmail(rs.getString("email"));
+				ml.add(mb);
+			}
+		} catch(Exception e) {
+			System.out.println(e);
+		}
+		return ml;
+	}
+	
+	public Member getMember(String id) {
+		ResultSet rs = null;
+		Member mb = null;
+		try {
+			rs = st.executeQuery("select * from member where id='" + id + "'");
+			if(rs.next()) {
+				mb = new Member();
+				mb.setId(rs.getString("id"));
+				mb.setPassword(rs.getString("password"));
+				mb.setName(rs.getString("name"));
+				mb.setSex(rs.getString("sex"));
+				mb.setBirth(rs.getString("birth"));
+				mb.setAuthority(rs.getString("authority"));
+				mb.setAddress(rs.getString("address"));
+				mb.setPhone(rs.getString("phone"));
+				mb.setEmail(rs.getString("email"));
+			}
+		}catch(Exception e) {
+			System.out.println(e);
+		}
+		return mb;
+	}
+	
+	public static void main(String[] args) {
+		Access_DB ac = new Access_DB();
+		ArrayList<Member> ml = ac.getMembersAll();
+		for(int i=0; i<ml.size(); i++) {
+			Member mb = ml.get(i);
+			System.out.println(mb.getId());
+		}
+
+	}
+	
+	// 선핵한 item(notice:1, qna:2, music:3)을 통해 해당 게시판의 글 목록을 전부 받아오는 함수
+	public ArrayList<Article> getArticles(int item) {
+		ArrayList<Article> ac = new ArrayList<Article>();
+		ResultSet rs = null;
+		String query = "select * from board where category=";
+		try {
+			switch(item) {
+			case 1:
+				query += "'notice'";
+				break;
+			case 2:
+				query += "'QnA'";
+				break;
+			case 3:
+				query += "'Music'";
+				break;
+			}
+			query += " order by datetime asc";
+			rs = st.executeQuery(query);
+			while(rs.next()) {
+				Article article = new Article();
+				article.setArticle_number(rs.getString("article_number"));
+				article.setCategory(rs.getString("category"));
+				article.setId(rs.getString("id"));
+				article.setArticle_name(rs.getString("article_name"));
+				article.setDatetime(rs.getString("datetime"));
+				article.setViews(Integer.parseInt(rs.getString("views")));
+				article.setText(rs.getString("text"));
+				article.setLink(rs.getString("link"));
+				article.setImg(rs.getString("img"));
+				ac.add(article);
+			}
+		} catch(Exception e) {
+			System.out.println(e);
+		}
+		return ac;
+	}
+	
+	public ArrayList<Comment> getComments(String article_number){
+		ResultSet rs = null;
+		ArrayList<Comment> cs = new ArrayList<Comment>();
+		try {
+			rs = st.executeQuery("select * from comments where article_number='" + article_number + "'  order by datetime asc");
+			while(rs.next()) {
+				Comment comment = new Comment();
+				comment.setArticle_number(rs.getString("article_number"));
+				comment.setId(rs.getString("id"));
+				comment.setDatetime(rs.getString("datetime"));
+				comment.setText(rs.getString("text"));
+				comment.setComment_number(rs.getString("comment_number"));
+				cs.add(comment);
+			}
+		} catch(Exception e) {
+			System.out.println(e);
+		}
+		return cs;
+	}
+	
+	// 게시글 번호를 통해 해당 게시글의 내용을 받아 오는 함수
+	public Article getArticle(String article_number) {
+		ResultSet rs = null;
+		Article ac= null;
+		try {
+			rs = st.executeQuery("select * from board where article_number='" + article_number + "'");
+			while(rs.next()) {
+				ac = new Article();
+				ac.setArticle_number(rs.getString("article_number"));
+				ac.setCategory(rs.getString("category"));
+				ac.setId(rs.getString("id"));
+				ac.setArticle_name(rs.getString("article_name"));
+				ac.setDatetime(rs.getString("datetime"));
+				ac.setViews(Integer.parseInt(rs.getString("views")));
+				ac.setText(rs.getString("text"));
+				ac.setLink(rs.getString("link"));
+				ac.setImg(rs.getString("img"));
+				ac.setQna_category(rs.getString("qna_category"));
+			}
+			if(ac != null) {
+				views(ac);
+			}
+		} catch(Exception e) {
+			System.out.println(e);
+		}
+		return ac;
+	}
+	
+	public ArrayList<Music> getMusics() {
+		ResultSet rs = null;
+		ArrayList<Music> ml = new ArrayList<Music>();
+		try {
+			rs = st.executeQuery("select * from board where category='music' order by datetime desc");
+			while(rs.next()) {
+				Music mu = new Music();
+				mu.setArticle_name(rs.getString("article_name"));
+				mu.setArticle_number(rs.getString("article_number"));
+				mu.setCategory(rs.getString("category"));
+				mu.setDatetime(rs.getString("datetime"));
+				mu.setId(rs.getString("id"));
+				mu.setLink(rs.getString("link"));
+				ml.add(mu);
+			}
+		}catch(Exception e) {
+			System.out.println(e);
+		}
+		return ml;
+	}
+	
+	public void views(Article article) {
+		try {
+			article.setViews(article.getViews() + 1);
+			st.execute("update board set views=" + article.getViews() + " where article_number='" + article.getArticle_number() + "'");
+		} catch(Exception e) {
+			System.out.println(e);
+		}
+	}
+
+	
+	public void memberUpdate(Member member) {
+		if(member.getEmail().equals(""))
+			member.setEmail(null);
+		try {
+			System.out.println("update member set password='" + member.getPassword() + "', sex='" + member.getSex() + "', birth='" + member.getBirth() + 
+					"', authority='" + member.getAuthority() + "', address='" + member.getAddress() + "', phone='"+member.getPhone() + "', email='"+ member.getEmail()
+					+ "' where id='" + member.getId() + "'");
+			st.execute("update member set password='" + member.getPassword() + "', sex='" + member.getSex() + "', birth='" + member.getBirth() + 
+					"', authority='" + member.getAuthority() + "', address='" + member.getAddress() + "', phone='"+member.getPhone() + "', email='"+ member.getEmail()
+					+ "' where id='" + member.getId() + "'");
+		}
+		catch(Exception e) {
+			System.out.println(e);
+		}
+	}
+	
+	public void updateArticle(Article article) {
+		String query=
+		"update board set article_name='"+ article.getArticle_name() + "', text='" + article.getText() + "', link='" + article.getLink() +
+			"', img='"+article.getImg()+"', qna_category='" + article.getQna_category() + "' where article_number='" + article.getArticle_number() + "'";
+		try {
+			System.out.println(query);
+			st.execute(query);
+		}
+		catch(Exception e) {
+			System.out.println(e);
+		}
+	}	
+	
+	public static String getDaysAgoDate(int day) {
+		Calendar calendar = Calendar.getInstance();
+		calendar.add(Calendar.DAY_OF_MONTH, day);
+		Date date = calendar.getTime();
+		SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
+		return sf.format(date);
+	}
+	
+	public void articleWrite(int item, Article article) {
+		String query = "insert into board(";
+		try {
+			switch(item) {
+			case 1:
+				query += "article_number, category, id, article_name, datetime, views, text) values(" + article.getAttributes(Article.NOTICE) + ")";
+				break;
+			case 2:
+				query += "article_number, category, id, article_name, datetime, views, text, qna_category) values(" + article.getAttributes(Article.QNA) + ")";
+				break;
+			case 3:
+				query += "article_number, category, id, article_name, datetime, views, text, link) values(" + article.getAttributes(Article.MUSIC) + ")";
+				break;
+			}
+			st.execute(query); 
+		}catch(Exception e) {
+			System.out.println(e);
+		}
+	}
+	
+	public void articleDelete(String article_number) {
+		try {
+			st.execute("delete from board where article_number='" + article_number + "'");
+		} catch( Exception e) {
+			System.out.println(e);
+		}
+	}
+	
+	public void commentWrite(Comment comment) {
+		try {
+			st.execute("insert into comments values(" + comment.getAttributes() + ")");
+		}
+		catch(Exception e) {
+			System.out.println(e);
+		}
+	}
+
+	public String getNextCommentNumber(String article_number) {
+		String result = null;
+		ResultSet rs = null;
+		try {
+			rs = st.executeQuery("select * from comments where article_number='" + article_number + "' order by datetime desc");
+			if(rs.next()) {
+				int nextNumber = Integer.parseInt(rs.getString("comment_number").substring(3)) + 1;
+				System.out.println(nextNumber);
+				result = article_number + "_" + String.valueOf(nextNumber);
+			}
+			if(result == null) {
+				result = article_number + "_1";
+			}
+		}catch(Exception e) {
+			System.out.println(e);
+		}
+		return result;
+	}
+
+	
+	public void commentDelete(String comment_number) {
+		try {
+			st.execute("delete from comments where comment_number='" + comment_number + "'");
+		}
+		catch(Exception e) {
+			System.out.println(e);
+		}
+	}
+	public void commentsDelete(String article_number) {
+		try {
+			st.execute("delete from comments where article_number='" + article_number + "'");
+		}
+		catch(Exception e) {
+			System.out.println(e);
+		}
+	}
+
+	
+	public static String getCurrentDateTime() {
+		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss");
+		return df.format(new Date());
+	}
+	
+	public static String getCurrentDate() {
+		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+		return df.format(new Date());
+	}
+	
+	public String getNextArticleNumber(int item) {
+		String result = null;
+		String query = "select * from board where category='";
+		ResultSet rs = null;
+		try {
+			switch(item) {
+			case 1:
+				query += "notice'";
+				result = "n";
+				break;
+			case 2:
+				query += "qna'";
+				result = "q";
+				break;
+			case 3:
+				query += "music'";
+				result = "m";
+				break;
+			}
+			query += "order by datetime desc";
+			rs = st.executeQuery(query);
+			if(rs.next()) {
+				int number = Integer.parseInt(rs.getString("article_number").substring(1)) + 1;
+				result += String.valueOf(number);
+			}
+			if(result.equals("n") || result.equals("q") || result.equals("m")){
+				result += "1";
+			}
+		}
+		catch(Exception e) {
+			System.out.println(e);
+		}
+		return result;
+	}
+
+	
+	public String getIdToName(String id) {
+		ResultSet rs = null;
+		String result = null;
+		try {
+			rs = st.executeQuery("select * from member where id='" + id + "'");
+			while(rs.next()) {
+				result = rs.getString("name");
+			}
+		}catch(Exception e) {
+			System.out.println(e);
+		}
+		return result;
+	}	
+	
+	public String getIdToAddress(String id) {
+		ResultSet rs = null;
+		String result = null;
+		try {
+			rs = st.executeQuery("select * from member where id='" + id + "'");
+			while(rs.next()) {
+				result = rs.getString("address");
+			}
+		}catch(Exception e) {
+			System.out.println(e);
+		}
+		return result;
+	}	
+	
+	public String getIdToPhone(String id) {
+		ResultSet rs = null;
+		String result = null;
+		try {
+			rs = st.executeQuery("select * from member where id='" + id + "'");
+			while(rs.next()) {
+				result = rs.getString("phone");
+			}
+		}catch(Exception e) {
+			System.out.println(e);
+		}
+		return result;
+	}	
+	
+	public String getIdToEmail(String id) {
+		ResultSet rs = null;
+		String result = null;
+		try {
+			rs = st.executeQuery("select * from member where id='" + id + "'");
+			while(rs.next()) {
+				result = rs.getString("email");
+			}
+		}catch(Exception e) {
+			System.out.println(e);
+		}
+		if(result == null)
+			result = "-";
+		return result;
+	}	
+	
+	public String getidToAuthority(String id) {
+		ResultSet rs = null;
+		String result = null;
+		try {
+			rs = st.executeQuery("select * from member where id='" + id + "'");
+			while(rs.next()) {
+				result = rs.getString("authority");
+			}
+		}catch(Exception e) {
+			System.out.println(e);
+		}
+		return result;
+	}
+	
+	public Member login(String id, String password) {
+		ResultSet rs = null;
+		Member mb = null;
+		try {
+			rs = st.executeQuery("select * from member where id='" + id + "'");
+			while(rs.next()) {
+				if(rs.getString("password").equals(password)) {
+					mb = new Member();
+					mb.setId(rs.getString("id"));
+					mb.setPassword(rs.getString("password"));
+					mb.setName(rs.getString("name"));
+					mb.setSex(rs.getString("sex"));
+					mb.setBirth(rs.getString("birth"));
+					mb.setAuthority(rs.getString("authority"));
+					mb.setAddress(rs.getString("address"));
+					mb.setPhone(rs.getString("phone"));
+					mb.setEmail(rs.getString("email"));
+				}
+			}
+		} catch(Exception e) {
+			System.out.println(e);
+		}
+		return mb;
+	}
+	
+	public boolean join(Member mb) {
+		boolean result = false;
+		String query = "insert into member values('" + mb.getId() + "', '" + mb.getPassword() + "', '" + mb.getName() + "', '" + mb.getSex()
+		 + "', '" + mb.getBirth() + "', '" + mb.getAuthority() + "', '" + mb.getAddress() + "', '" + mb.getPhone() + "', '" + mb.getEmail() + "')";
+		System.out.println(query);
+		try {
+			if(st.execute(query)) {
+				result = true;
+			}
+		}
+		catch (Exception e){
+			System.out.println(e);
+		}
+		return result;
+	}
+	
+	public boolean idCheck(String id) {
+		boolean result = false;
+		ResultSet rs = null;
+		try {
+			rs = st.executeQuery("select * from member where id='" + id + "'");
+			while(rs.next()) {
+				result = true;
+			}
+		}catch(Exception e) {
+			System.out.println(e);
+		}
+		return result;
+	}
+
+	public void closeDB() {
+		try {
+			con.close();
+			st.close();
+		} catch(Exception e) {
+			System.out.println(e);
+		}
+	}
+}

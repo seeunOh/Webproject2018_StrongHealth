@@ -1,0 +1,123 @@
+/*헤더*/
+body{
+width:1080px;
+}
+
+#header{
+width:1080px;
+height:28px;
+background:#FFEAEA;
+}
+#log{
+float:right;
+width:230px;
+line-height: 1.7em;
+}
+
+#log a {
+font-size:16px;
+color: black;
+text-decoration:none; 
+}
+
+#log a:hover {
+text-decoration:underline;
+}
+
+
+#nav{
+width:1080px;
+height:180px;
+}
+
+
+
+/*푸터*/
+#footer {
+    background-color: white;
+    width: 1080px;
+    height: 100px;
+    float:left;
+    text-align:center;
+
+}
+#bottom {
+    background-color: #FFEAEA;
+    width: 1080px;
+    height: 20px;
+    clear: both;
+    text-align:center;
+
+}
+
+
+
+/*회원가입*/
+#container{
+			width: 460px;
+			height: 710px;
+		}
+		#container img{
+			width: 70px;
+			margin-left: auto;
+			margin-right: auto;
+			display: block;
+			
+		}
+		#name_area, #id_area, #password_area, #sex_area, #birth_area, #address_area, #phone_area, #email_area {
+			border: px gray solid;
+			margin: 20px 10px; 
+			height: 40px;
+			font-size: 18px;
+			color: gray;
+		}		
+		#item {
+			border: px violet solid;
+			width: 120px;
+			height: 40px;
+			line-height: 40px;
+			display: inline-block;
+		}
+		#in_name, #in_id, #in_password, #in_sex, #in_birth, #in_address, #in_phone, #in_email {
+			border: px green solid;
+			display: inline-block;
+			width: 247px;
+			height: 40px;
+			line-height: 40px;
+		}
+		#in_sex {
+			text-align: center;
+		}
+		#text {
+			width: 244px;
+			height: 37px;
+			font-size: 18px;
+		}
+		#sub{
+			text-align: center;
+		}
+		#login_button {
+			text-decoration: none;
+			color: gray;
+		}
+		#submit {			
+			background-color: #FF8383;
+			color: white;
+			font-size: 20px;
+			height: 60px;
+			border: 0px;
+			width: 380px;
+			margin: 10px 0;
+		}
+		
+#canvas{
+width:460px;
+height:710px;
+text-align:center;
+margin:0px 0px 10px 340px;
+border: 1px solid black;
+float:left;
+}
+
+
+

@@ -1,0 +1,132 @@
+<%@ page language="java" contentType="text/html; charset=EUC-KR"
+    pageEncoding="EUC-KR"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="EUC-KR">
+<title>Insert title here</title>
+
+
+<style>
+
+body{
+width:1080px;
+text-align:center;
+}
+
+#aside{
+height:100px;
+width:180px;
+font-size:28px;
+background: #FF9595;
+float:left;
+color:white;
+}
+#stretcontent{
+width:900px;
+background: #FFEAEA;
+float:right;
+heigth:;
+}
+#stretcontent table{
+margin:0px 0px 0px 150px;
+}
+button{
+background:white;
+}
+
+</style>
+
+<script>
+
+var image=['tmxmfpcld','tmxmfpcldahr','tmxmfpclddjRo','tmxmfpcldwhddkfl','tmxmfpcldwkrlwjs'];
+var content=['기본 스트레칭','목 스트레칭','어깨 스트레칭','종아리 스트레칭','자기전 스트레칭']
+var b=0;
+
+function back(){
+	switch(b){
+	case 1:
+		document.getElementById("content").innerHTML = content[0];
+		document.getElementById("image").src = "img/"+image[0]+".png";
+		b--;
+		break;
+	case 2:
+		document.getElementById("content").innerHTML = content[1];
+		document.getElementById("image").src = "img/"+image[1]+".png";
+		b--;
+		break;
+	case 3:
+		document.getElementById("content").innerHTML = content[2];
+		document.getElementById("image").src = "img/"+image[2]+".png";
+		b--;
+		break;
+	case 4:
+		document.getElementById("content").innerHTML = content[3];
+		document.getElementById("image").src = "img/"+image[3]+".png";
+		break;
+	case 5:
+		document.getElementById("content").innerHTML = content[4];
+		document.getElementById("image").src = "img/"+image[4]+".png";
+		b--;
+		break;
+	}
+
+}
+
+function next(){
+	switch(b){
+	case 0:
+		document.getElementById("content").innerHTML = content[1];
+		document.getElementById("image").src = "img/"+image[1]+".png";
+		b++;
+		break;
+	case 1:
+		document.getElementById("content").innerHTML = content[2];
+		document.getElementById("image").src = "img/"+image[2]+".png";
+		b++;
+		break;
+	case 2:
+		document.getElementById("content").innerHTML = content[3];
+		document.getElementById("image").src = "img/"+image[3]+".png";
+		b++;
+		break;
+	case 3:
+		document.getElementById("content").innerHTML = content[4];
+		document.getElementById("image").src = "img/"+image[4]+".png";
+		break;
+	case 4:
+		document.getElementById("content").innerHTML = content[5];
+		document.getElementById("image").src = "img/"+image[5]+".png";
+		b++;
+		break;
+	}
+}
+
+</script>
+
+</head>
+
+<body>
+<jsp:include page="Header.jsp"/>
+
+<div id=aside>
+<p>스트레칭</p>
+</div>
+
+
+<%
+String image[] = {"tmxmfpcld","tmxmfpcldahr","tmxmfpclddjRo","tmxmfpcldwhddkfl","tmxmfpcldwkrlwjs"};
+String content[] = {"기본 스트레칭","목 스트레칭","어깨 스트레칭","종아리 스트레칭","자기전 스트레칭"};
+%>
+<%int cnt=0; %>
+<div id=stretcontent>
+<%
+out.print("<h2 id=content>"+content[cnt]+ "</h2><img src= img/"+image[cnt] + ".png width=530 height=400 id=image />");
+%>
+
+<button type=button onClick = "back()">이전</button>
+<button type=button onClick = "next()">다음</button>
+<p></p>
+</div>
+</body>
+</html>

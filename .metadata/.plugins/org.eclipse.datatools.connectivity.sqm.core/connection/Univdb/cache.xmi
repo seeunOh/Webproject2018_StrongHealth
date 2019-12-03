@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:SQLAccessControl="http:///org/eclipse/datatools/modelbase/sql/accesscontrol.ecore" xmlns:SQLConstraints="http:///org/eclipse/datatools/modelbase/sql/constraints.ecore" xmlns:SQLDataTypes="http:///org/eclipse/datatools/modelbase/sql/datatypes.ecore" xmlns:SQLSchema="http:///org/eclipse/datatools/modelbase/sql/schema.ecore" xmlns:SQLTables="http:///org/eclipse/datatools/modelbase/sql/tables.ecore">
+  <SQLSchema:Database name="database" vendor="MySql" version="5.1" schemas="/1" authorizationIds="/3">
+    <eAnnotations source="ConnectionURI">
+      <details key="ConnectionKey" value="Univdb"/>
+    </eAnnotations>
+  </SQLSchema:Database>
+  <SQLSchema:Schema name="database" tables="/2" database="/0"/>
+  <SQLTables:PersistentTable name="student" schema="/1">
+    <columns name="id" description="" nullable="false">
+      <containedType xsi:type="SQLDataTypes:CharacterStringDataType" name="VARCHAR" primitiveType="CHARACTER_VARYING" length="20"/>
+    </columns>
+    <columns name="passwd" description="" nullable="false">
+      <containedType xsi:type="SQLDataTypes:CharacterStringDataType" name="VARCHAR" primitiveType="CHARACTER_VARYING" length="20"/>
+    </columns>
+    <columns name="name" description="" nullable="false">
+      <containedType xsi:type="SQLDataTypes:CharacterStringDataType" name="VARCHAR" primitiveType="CHARACTER_VARYING" length="20"/>
+    </columns>
+    <columns name="year" description="">
+      <containedType xsi:type="SQLDataTypes:IntegerDataType" name="INT" primitiveType="INTEGER"/>
+    </columns>
+    <columns name="snum" description="">
+      <containedType xsi:type="SQLDataTypes:CharacterStringDataType" name="VARCHAR" primitiveType="CHARACTER_VARYING" length="10"/>
+    </columns>
+    <columns name="depart" description="">
+      <containedType xsi:type="SQLDataTypes:CharacterStringDataType" name="VARCHAR" primitiveType="CHARACTER_VARYING" length="20"/>
+    </columns>
+    <columns name="mobile1" description="">
+      <containedType xsi:type="SQLDataTypes:CharacterStringDataType" name="CHAR" length="3"/>
+    </columns>
+    <columns name="nobile2" description="">
+      <containedType xsi:type="SQLDataTypes:CharacterStringDataType" name="VARCHAR" primitiveType="CHARACTER_VARYING" length="10"/>
+    </columns>
+    <columns name="address" description="">
+      <containedType xsi:type="SQLDataTypes:CharacterStringDataType" name="VARCHAR" primitiveType="CHARACTER_VARYING" length="65"/>
+    </columns>
+    <columns name="email" description="">
+      <containedType xsi:type="SQLDataTypes:CharacterStringDataType" name="VARCHAR" primitiveType="CHARACTER_VARYING" length="30"/>
+    </columns>
+    <constraints xsi:type="SQLConstraints:PrimaryKey" name="PRIMARY" members="/2/id"/>
+  </SQLTables:PersistentTable>
+  <SQLAccessControl:User name="root [localhost]" label="root [localhost]" Database="/0"/>
+</xmi:XMI>

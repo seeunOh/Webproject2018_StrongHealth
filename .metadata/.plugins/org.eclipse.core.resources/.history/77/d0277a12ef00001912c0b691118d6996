@@ -1,0 +1,58 @@
+<%@ page language="java" contentType="text/html; charset=EUC-KR"
+    pageEncoding="EUC-KR"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="EUC-KR">
+<title>Insert title here</title>
+
+<link rel="stylesheet" href="Header.css">
+
+</head>
+<body>
+
+<div id=mainlogo>
+<a href="Container.jsp"><img src="img/logoLast.PNG" width=450 height=100/></a>
+<div id=Loheader>
+<%
+	if(session.getAttribute("id") == null){
+		out.println("<div id=log><a href='Container.jsp?selected_page=login'>&nbsp;&nbsp;&nbsp;&nbsp;LOGIN</a><span> | </span><a href='Container.jsp?selected_page=join'>JOIN</a><span> | </span><a href='Container.jsp?selected_page=mypage'>MYPAGE</a></div>"); // MYPAGE는 삭제가 필요함.
+	}
+	else{
+		out.println("<div id=log><a href='Container.jsp?selected_page=management'>" + session.getAttribute("name") + " 님" + "</a><span> | </span><a href='Logout.jsp'>LOGOUT</a><span> | </span><a href='Container.jsp?selected_page=mypage'>MYPAGE</a></div>");
+	}	
+%>
+</div>
+</div>
+
+<div id = TM>
+<ul>
+<li>&nbsp</li>
+ <li class="topmenu"><a class="menuLink" href="Container.jsp?selected_page=today">오늘의 건강</a>
+ </li>
+ <li class="topmenu"><a class="menuLink" href="Container.jsp?selected_page=survey">건강설문</a>
+ </li>
+ <li class="topmenu"><a class="menuLink" href="#">헬스케어</a>
+   <ul class="submenu">
+     <li class="submenuLink"><a href="Healthcare_Food.jsp">추천 건강푸드</a></li>
+     <li class="submenuLink"><a href="Healthcare_Stretching.jsp">스트레칭</a></li>
+     <li class="submenuLink"><a href="Container.jsp?selected_page=music">추천음악</a></li>
+   </ul>
+</li>
+ <li class="topmenu"><a class="menuLink" href="#">자료실</a>
+ 	<ul class="submenu">
+     <li class="submenuLink"><a href="HealthNews.jsp">건강신문</a></li>
+   </ul>
+ </li>
+ <li class="topmenu"><a class="menuLink" href="Container.jsp?selected_page=notice">커뮤니티</a>
+  <ul class="submenu">
+   <li class="submenuLink"><a href="Container.jsp?selected_page=notice">공지사항</a></li>
+   <li class="submenuLink"><a href="Container.jsp?selected_page=qna">Q&A</a></li>
+  </ul>
+</li>
+</ul>
+</div>
+
+
+</body>
+</html>

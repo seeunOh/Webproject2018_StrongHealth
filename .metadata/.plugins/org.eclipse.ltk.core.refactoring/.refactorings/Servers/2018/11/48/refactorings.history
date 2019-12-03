@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename resource &apos;Servers/weathert.sql&apos; to &apos;weather.sql&apos;" description="Rename resource &apos;weathert.sql&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="weathert.sql" name="weather.sql" stamp="1543207967307" updateReferences="true"/>
+</session>
